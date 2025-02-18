@@ -1,0 +1,15 @@
+.container {
+  list-style: none;
+  column-gap: 0;
+  padding: 0;
+  column-count: 5;
+}
+.card {
+  width: 100%;
+  height: 400px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border: 1px solid #333;
+  break-inside: avoid;
+}
