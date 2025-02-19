@@ -4,15 +4,15 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 const items = [
-  { id: 1, text: "Item 1", description: "hello bye hellobye" },
-  { id: 2, text: "Item 2", description: "hello bye hellobye" },
-  { id: 3, text: "Item 3", description: "hello bye hellobye" },
-  { id: 4, text: "Item 4", description: "hello bye hellobye" },
-  { id: 5, text: "Item 5", description: "hello bye hellobye" },
-  { id: 6, text: "Item 6", description: "hello bye hellobye" },
-  { id: 7, text: "Item 7", description: "hello bye hellobye" },
-  { id: 8, text: "Item 8", description: "hello bye hellobye" },
-  { id: 9, text: "Item 9", description: "hello bye hellobye" },
+  { id: 1, text: "Item 1", description: "description for item 1" },
+  { id: 2, text: "Item 2", description: "description for item 2" },
+  { id: 3, text: "Item 3", description: "description for item 3" },
+  { id: 4, text: "Item 4", description: "description for item 4" },
+  { id: 5, text: "Item 5", description: "description for item 5" },
+  { id: 6, text: "Item 6", description: "description for item 6" },
+  { id: 7, text: "Item 7", description: "description for item 7" },
+  { id: 8, text: "Item 8", description: "description for item 8" },
+  { id: 9, text: "Item 9", description: "description for item 9" },
 ];
 
 export default function Slider() {
