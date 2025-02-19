@@ -1,98 +1,95 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const squares = [
-  { id: "item-1", title: "Hi", color: "bg-purple-600" },
-  { id: "item-2", title: "Bye", color: "bg-blue-700" },
-  { id: "item-3", title: "hibye", color: "bg-indigo-500" },
+const items = [
+  { id: 1, text: "Item 1", description: "hello bye hellobye" },
+  { id: 2, text: "Item 2", description: "hello bye hellobye" },
+  { id: 3, text: "Item 3", description: "hello bye hellobye" },
+  { id: 4, text: "Item 4", description: "hello bye hellobye" },
+  { id: 5, text: "Item 5", description: "hello bye hellobye" },
+  { id: 6, text: "Item 6", description: "hello bye hellobye" },
+  { id: 7, text: "Item 7", description: "hello bye hellobye" },
+  { id: 8, text: "Item 8", description: "hello bye hellobye" },
+  { id: 9, text: "Item 9", description: "hello bye hellobye" },
 ];
 
-const Slider = () => {
-  const [selected, setSelected] = useState("item-1");
+export default function Slider() {
+  const [selected, setSelected] = useState(null);
+  const [cyclingComplete, setCyclingComplete] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
 
   useEffect(() => {
     if (inView) {
-      setTimeout(() => {
-        setSelected(squares[1].id);
-        setTimeout(() => setSelected(squares[2].id), 1000);
-      }, 1000);
+      let index = 0;
+      let direction = 1;
+      let cycles = 0;
+      let intervalTime = 100;
+      let interval;
+
+      const updateSlider = () => {
+        setSelected(items[index].id);
+        index += direction;
+
+        if (index === items.length - 1 || index === 0) {
+          direction *= -1;
+          cycles++;
+          intervalTime *= 1.2;
+        }
+
+        if (cycles < 2) {
+          interval = setTimeout(updateSlider, intervalTime);
+        } else {
+          setCyclingComplete(true);
+        }
+      };
+
+      interval = setTimeout(updateSlider, intervalTime);
+      return () => clearTimeout(interval);
     }
   }, [inView]);
 
-  const handlePrev = () => {
-    const currentIndex = squares.findIndex((s) => s.id === selected);
-    const prevIndex = (currentIndex - 1 + squares.length) % squares.length;
-    setSelected(squares[prevIndex].id);
-  };
-
-  const handleNext = () => {
-    const currentIndex = squares.findIndex((s) => s.id === selected);
-    const nextIndex = (currentIndex + 1) % squares.length;
-    setSelected(squares[nextIndex].id);
-  };
-
   return (
-    <div
-      ref={ref}
-      className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-indigo-900 to-purple-900 transition-all duration-1000"
-    >
-      <div className="relative w-full max-w-xl h-96 flex justify-center items-center overflow-hidden">
-        {/* Left Button */}
-        <button
-          className="absolute left-5 z-20 bg-white p-4 rounded-full shadow-lg hover:bg-gray-200 transition"
-          onClick={handlePrev}
-        >
-          <ChevronLeft size={32} />
-        </button>
-
-        {squares.map((square, index) => (
-          <motion.div
-            key={square.id}
-            animate={{
-              scale: selected === square.id ? 1 : 0.85,
-              x:
-                index === squares.findIndex((s) => s.id === selected) - 1 ||
-                (index === squares.length - 1 && selected === squares[0].id)
-                  ? "-50%"
-                  : index === squares.findIndex((s) => s.id === selected) + 1 ||
-                    (index === 0 && selected === squares[squares.length - 1].id)
-                  ? "50%"
-                  : "0%",
-            }}
-            transition={{ type: "spring", stiffness: 100, damping: 15 }}
-            className="absolute transition-transform cursor-pointer w-48 h-48 rounded-lg"
-          >
-            <div className={`w-full h-full ${square.color} rounded-lg shadow-2xl`}></div>
-          </motion.div>
-        ))}
-
-        {/* Right Button */}
-        <button
-          className="absolute right-5 z-20 bg-white p-4 rounded-full shadow-lg hover:bg-gray-200 transition"
-          onClick={handleNext}
-        >
-          <ChevronRight size={32} />
-        </button>
-      </div>
-
-      <motion.div
-        className="bg-white p-5 rounded-lg shadow-md w-80 mt-5"
-        animate={{ y: 0 }}
-        initial={{ y: 20 }}
-        transition={{ type: "spring", stiffness: 80, damping: 12 }}
+    <div>
+      <div
+        ref={ref}
+        className="flex flex-col items-center justify-center h-screen overflow-hidden"
       >
-        <div className="text-gray-800 text-2xl font-bold text-center">
-          {squares.find((s) => s.id === selected)?.title}
+        <div className="relative flex space-x-4">
+          {items.map((item) => (
+            <motion.div
+              key={item.id}
+              onClick={() => cyclingComplete && setSelected(item.id)}
+              initial={{ scale: 0.9, opacity: 0.7 }}
+              animate={{
+                scale: selected === item.id ? 1.2 : 0.9,
+                opacity: selected === item.id ? 1 : 0.7,
+                zIndex: selected === item.id ? 10 : 1,
+                filter: selected === item.id ? "none" : "blur(2px)",
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="w-40 h-40 bg-blue-500 text-white flex items-center justify-center cursor-pointer rounded-lg shadow-lg"
+            >
+              {item.text}
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
+
+        <div className="h-12 mt-5 flex items-center">
+          {cyclingComplete && selected !== null && (
+            <motion.div
+              key={selected}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="text-lg font-semibold text-gray-700 bg-white px-4 py-2 rounded-lg shadow-md"
+            >
+              {items.find((item) => item.id === selected)?.description}
+            </motion.div>
+          )}
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Slider;
-
+}

@@ -31,7 +31,7 @@ const Masonary = () => {
         {Array(21)
           .fill(null)
           .map((_, index) => {
-            // Ensure the first row items have a minimum height to be fully visible
+            // ens visible first row
             const isFirstRow = index < 5;
             const minHeight = isFirstRow ? 150 : 100; // Minimum height for first row
             const randomHeight = Math.floor(Math.random() * 100) + minHeight;
