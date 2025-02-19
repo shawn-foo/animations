@@ -16,7 +16,7 @@ const items = [
 ];
 
 export default function Slider() {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<number | null>(null);
   const [cyclingComplete, setCyclingComplete] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
 
@@ -26,7 +26,7 @@ export default function Slider() {
       let direction = 1;
       let cycles = 0;
       let intervalTime = 100;
-      let interval;
+      let interval: any;
 
       const updateSlider = () => {
         setSelected(items[index].id);

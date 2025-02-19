@@ -1,11 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import Intro from './intro.tsx'
-import Masonary from "./masonary.tsx"
-import Slider from "./slider.tsx"
+import Intro from './intro'
+import Masonary from "./masonary"
+import Slider from "./slider"
 
 
 const App = () => {
