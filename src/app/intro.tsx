@@ -18,7 +18,7 @@ const Intro = () => {
         transition={{ duration: 1 }}
         className="text-5xl font-bold mb-12 text-center"
       >
-        Hello, I am Shawn
+        demo animation projects most are placeholders
       </motion.h1>
 
       <div className="space-y-12 w-full max-w-5xl">
